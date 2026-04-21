@@ -1,0 +1,588 @@
+<style>
+:root {
+  --gm-dark: #0f1923;
+  --gm-card: #1a2735;
+  --gm-teal: #00c9a7;
+  --gm-teal-dim: #007a66;
+  --gm-red: #ff4d6d;
+  --gm-amber: #ffa940;
+  --gm-green: #52c41a;
+  --gm-text: #e8f0f7;
+  --gm-muted: #8fa3b8;
+  --gm-border: rgba(255,255,255,0.1);
+  --gm-score-high: #00c9a7;
+  --gm-score-mid: #ffa940;
+  --gm-score-low: #ff4d6d;
+}
+.gm-phone {
+  max-width: 360px;
+  margin: 0 auto;
+  background: var(--gm-dark);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  font-family: -apple-system, 'SF Pro Display', sans-serif;
+  position: relative;
+}
+.gm-statusbar {
+  background: var(--gm-dark);
+  padding: 10px 20px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--gm-muted);
+}
+.gm-topbar {
+  background: var(--gm-dark);
+  padding: 4px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid var(--gm-border);
+}
+.gm-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gm-logo-dna {
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(135deg, var(--gm-teal), #007aff);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+}
+.gm-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gm-text);
+  letter-spacing: -0.3px;
+}
+.gm-logo-text span { color: var(--gm-teal); }
+.gm-topbar-icons {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.gm-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gm-muted);
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.gm-icon-btn:hover { background: rgba(255,255,255,0.12); }
+
+.gm-alert {
+  background: rgba(255,165,0,0.12);
+  border-left: 2px solid var(--gm-amber);
+  margin: 8px 12px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #ffd666;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+.gm-alert-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gm-amber);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.gm-card {
+  margin: 6px 12px 0;
+  background: var(--gm-card);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 0.5px solid var(--gm-border);
+}
+.gm-profile-top {
+  padding: 16px 16px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.gm-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: white;
+  letter-spacing: -1px;
+}
+.gm-profile-info { flex: 1; min-width: 0; }
+.gm-profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gm-text);
+  margin: 0 0 2px;
+}
+.gm-profile-sub {
+  font-size: 12px;
+  color: var(--gm-muted);
+  margin: 0 0 8px;
+}
+.gm-interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.gm-pill {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  color: var(--gm-muted);
+  border: 0.5px solid var(--gm-border);
+}
+
+.gm-score-row {
+  background: rgba(0,201,167,0.08);
+  border-top: 0.5px solid var(--gm-border);
+  border-bottom: 0.5px solid var(--gm-border);
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gm-score-label {
+  font-size: 11px;
+  color: var(--gm-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.gm-score-value {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.gm-score-bar-wrap {
+  flex: 1;
+  margin: 0 12px;
+}
+.gm-score-bar-bg {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.gm-score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.gm-genetics {
+  padding: 12px 16px;
+}
+.gm-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--gm-muted);
+  margin-bottom: 8px;
+}
+.gm-risk-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  font-size: 12px;
+}
+.gm-risk-item:last-child { border-bottom: none; }
+.gm-risk-name { color: var(--gm-text); }
+.gm-risk-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.gm-risk-low { background: rgba(82,196,26,0.15); color: #95de64; }
+.gm-risk-mid { background: rgba(255,169,64,0.15); color: #ffc069; }
+.gm-risk-high { background: rgba(255,77,109,0.15); color: #ff7875; }
+.gm-risk-carrier { background: rgba(255,169,64,0.15); color: #ffc069; }
+
+.gm-traits {
+  padding: 0 16px 12px;
+}
+.gm-traits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.gm-trait-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  padding: 7px 10px;
+  border: 0.5px solid rgba(255,255,255,0.06);
+}
+.gm-trait-label {
+  font-size: 10px;
+  color: var(--gm-muted);
+  margin-bottom: 2px;
+}
+.gm-trait-value {
+  font-size: 12px;
+  color: var(--gm-text);
+  font-weight: 500;
+}
+
+.gm-actions {
+  padding: 10px 16px 14px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.gm-btn-no {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(255,77,109,0.12);
+  border: 1.5px solid rgba(255,77,109,0.4);
+  color: var(--gm-red);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.gm-btn-no:hover { background: rgba(255,77,109,0.22); }
+.gm-btn-yes {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(0,201,167,0.12);
+  border: 1.5px solid rgba(0,201,167,0.4);
+  color: var(--gm-teal);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.gm-btn-yes:hover { background: rgba(0,201,167,0.22); }
+.gm-btn-info {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(0,122,255,0.1);
+  border: 1.5px solid rgba(0,122,255,0.3);
+  color: #69b1ff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  align-self: center;
+  transition: all 0.15s;
+}
+.gm-btn-info:hover { background: rgba(0,122,255,0.18); }
+
+.gm-nav {
+  background: var(--gm-dark);
+  border-top: 0.5px solid var(--gm-border);
+  padding: 8px 0 12px;
+  display: flex;
+  justify-content: space-around;
+}
+.gm-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 9px;
+  color: var(--gm-muted);
+  cursor: pointer;
+}
+.gm-nav-item.active { color: var(--gm-teal); }
+.gm-nav-icon { font-size: 18px; }
+
+.gm-counter {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 0 0;
+}
+.gm-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.gm-dot.active { background: var(--gm-teal); }
+
+.gm-premium-banner {
+  margin: 0 12px 8px;
+  background: linear-gradient(135deg, rgba(0,201,167,0.12), rgba(0,122,255,0.12));
+  border: 0.5px solid rgba(0,201,167,0.3);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #7ee3d4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gm-premium-cta {
+  font-size: 10px;
+  background: var(--gm-teal);
+  color: #0f1923;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+</style>
+
+<h2 class="sr-only">Mockup interactiu de l'aplicació GenomMatch — app de cites amb dades genètiques</h2>
+
+<div class="gm-phone" id="app">
+  <div class="gm-statusbar">
+    <span>9:41</span>
+    <span>●●●●○</span>
+  </div>
+
+  <div class="gm-topbar">
+    <div class="gm-logo">
+      <div class="gm-logo-dna">⌬</div>
+      <div class="gm-logo-text">Genom<span>Match</span></div>
+    </div>
+    <div class="gm-topbar-icons">
+      <button class="gm-icon-btn">⚙</button>
+      <button class="gm-icon-btn" style="position:relative;">
+        ♡
+        <span style="position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--gm-red);border:1.5px solid var(--gm-dark);"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="gm-alert">
+    <div class="gm-alert-dot"></div>
+    <span>Les teves dades genètiques han estat compartides amb <strong style="color:#ffd666;">3 empreses asseguradores</strong> associades. <span style="text-decoration:underline;cursor:pointer;">Gestionar permisos</span></span>
+  </div>
+
+  <div class="gm-card" id="profile-card">
+    <div class="gm-profile-top">
+      <div class="gm-avatar" id="avatar"></div>
+      <div class="gm-profile-info">
+        <p class="gm-profile-name" id="pname"></p>
+        <p class="gm-profile-sub" id="psub"></p>
+        <div class="gm-interests" id="pinterests"></div>
+      </div>
+    </div>
+
+    <div class="gm-score-row">
+      <div>
+        <div class="gm-score-label">Compatibilitat</div>
+        <div class="gm-score-label" style="font-size:9px;margin-top:1px;">genètica</div>
+      </div>
+      <div class="gm-score-bar-wrap">
+        <div class="gm-score-bar-bg">
+          <div class="gm-score-bar-fill" id="score-bar"></div>
+        </div>
+      </div>
+      <div class="gm-score-value" id="score-val"></div>
+    </div>
+
+    <div class="gm-genetics">
+      <div class="gm-section-title">Predisposicions dels fills (estimació)</div>
+      <div id="risks"></div>
+    </div>
+
+    <div class="gm-traits">
+      <div class="gm-section-title">Dades genètiques del perfil</div>
+      <div class="gm-traits-grid" id="traits"></div>
+    </div>
+
+    <div class="gm-counter" id="dots"></div>
+
+    <div class="gm-actions">
+      <button class="gm-btn-no" onclick="nextProfile()">✕</button>
+      <button class="gm-btn-info" onclick="showInfo()">i</button>
+      <button class="gm-btn-yes" onclick="nextProfile()">✓</button>
+    </div>
+  </div>
+
+  <div class="gm-premium-banner">
+    <span>Desbloqueja el perfil genètic complet</span>
+    <div class="gm-premium-cta">Premium</div>
+  </div>
+
+  <div class="gm-nav">
+    <div class="gm-nav-item active">
+      <div class="gm-nav-icon">⊙</div>
+      <span>Descobrir</span>
+    </div>
+    <div class="gm-nav-item">
+      <div class="gm-nav-icon">🧬</div>
+      <span>Filtre ADN</span>
+    </div>
+    <div class="gm-nav-item">
+      <div class="gm-nav-icon">♡</div>
+      <span>Matches</span>
+    </div>
+    <div class="gm-nav-item">
+      <div class="gm-nav-icon">○</div>
+      <span>Perfil</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const profiles = [
+  {
+    name: "Marc, 24",
+    sub: "Barcelona · Dissenyador gràfic",
+    initials: "M",
+    color: "#1d6fa4",
+    interests: ["Música", "Senderisme", "Fotografia"],
+    score: 87,
+    risks: [
+      { name: "Malaltia cardiovascular", level: "low", label: "Baixa" },
+      { name: "Alzheimer", level: "low", label: "Baixa" },
+      { name: "Diabetis tipus 2", level: "mid", label: "Moderada" },
+      { name: "Fibrosi quística", level: "carrier", label: "Portador" },
+    ],
+    traits: [
+      { label: "Grup sanguini", val: "A+" },
+      { label: "Color d'ulls previst", val: "Castanys" },
+      { label: "Metabolisme cafeïna", val: "Ràpid" },
+      { label: "Alçada prevista fills", val: "175–182 cm" },
+    ]
+  },
+  {
+    name: "Laia, 26",
+    sub: "Gràcia · Veterinària",
+    initials: "L",
+    color: "#6b3fa0",
+    interests: ["Animals", "Cuina", "Ioga"],
+    score: 43,
+    risks: [
+      { name: "Càncer de mama (BRCA1)", level: "high", label: "Elevada" },
+      { name: "Malaltia cardiovascular", level: "mid", label: "Moderada" },
+      { name: "Alzheimer", level: "mid", label: "Moderada" },
+      { name: "Fibrosi quística", level: "low", label: "No portadora" },
+    ],
+    traits: [
+      { label: "Grup sanguini", val: "O-" },
+      { label: "Color d'ulls previst", val: "Verds" },
+      { label: "Metabolisme cafeïna", val: "Lent" },
+      { label: "Alçada prevista fills", val: "162–170 cm" },
+    ]
+  },
+  {
+    name: "Pol, 23",
+    sub: "Poblenou · Enginyer",
+    initials: "P",
+    color: "#0d6e4f",
+    interests: ["Tecnologia", "Ciclisme", "Cinema"],
+    score: 92,
+    risks: [
+      { name: "Malaltia cardiovascular", level: "low", label: "Baixa" },
+      { name: "Alzheimer", level: "low", label: "Baixa" },
+      { name: "Diabetis tipus 2", level: "low", label: "Baixa" },
+      { name: "Fibrosi quística", level: "low", label: "No portador" },
+    ],
+    traits: [
+      { label: "Grup sanguini", val: "B+" },
+      { label: "Color d'ulls previst", val: "Blaus" },
+      { label: "Metabolisme cafeïna", val: "Ràpid" },
+      { label: "Alçada prevista fills", val: "178–185 cm" },
+    ]
+  },
+  {
+    name: "Nora, 25",
+    sub: "Eixample · Periodista",
+    initials: "N",
+    color: "#8b3a2a",
+    interests: ["Lectura", "Viatges", "Teatre"],
+    score: 61,
+    risks: [
+      { name: "Malaltia cardiovascular", level: "low", label: "Baixa" },
+      { name: "Alzheimer", level: "high", label: "Elevada" },
+      { name: "Diabetis tipus 2", level: "mid", label: "Moderada" },
+      { name: "Fibrosi quística", level: "carrier", label: "Portadora" },
+    ],
+    traits: [
+      { label: "Grup sanguini", val: "AB+" },
+      { label: "Color d'ulls previst", val: "Negres" },
+      { label: "Metabolisme cafeïna", val: "Lent" },
+      { label: "Alçada prevista fills", val: "164–172 cm" },
+    ]
+  }
+];
+
+let current = 0;
+
+function renderProfile(i) {
+  const p = profiles[i];
+  document.getElementById('avatar').textContent = p.initials;
+  document.getElementById('avatar').style.background = p.color;
+  document.getElementById('pname').textContent = p.name;
+  document.getElementById('psub').textContent = p.sub;
+
+  const ints = document.getElementById('pinterests');
+  ints.innerHTML = p.interests.map(t => `<span class="gm-pill">${t}</span>`).join('');
+
+  const scoreEl = document.getElementById('score-val');
+  const scoreColor = p.score >= 75 ? '#00c9a7' : p.score >= 50 ? '#ffa940' : '#ff4d6d';
+  scoreEl.textContent = p.score + '%';
+  scoreEl.style.color = scoreColor;
+
+  const bar = document.getElementById('score-bar');
+  bar.style.width = p.score + '%';
+  bar.style.background = scoreColor;
+
+  const risks = document.getElementById('risks');
+  risks.innerHTML = p.risks.map(r =>
+    `<div class="gm-risk-item">
+      <span class="gm-risk-name">${r.name}</span>
+      <span class="gm-risk-badge gm-risk-${r.level}">${r.label}</span>
+    </div>`
+  ).join('');
+
+  const traits = document.getElementById('traits');
+  traits.innerHTML = p.traits.map(t =>
+    `<div class="gm-trait-item">
+      <div class="gm-trait-label">${t.label}</div>
+      <div class="gm-trait-value">${t.val}</div>
+    </div>`
+  ).join('');
+
+  const dots = document.getElementById('dots');
+  dots.innerHTML = profiles.map((_, idx) =>
+    `<div class="gm-dot ${idx === i ? 'active' : ''}" onclick="goTo(${idx})"></div>`
+  ).join('');
+}
+
+function nextProfile() {
+  current = (current + 1) % profiles.length;
+  renderProfile(current);
+}
+
+function goTo(i) {
+  current = i;
+  renderProfile(current);
+}
+
+function showInfo() {
+  sendPrompt('Quines preguntes ètiques planteja una aplicació com GenomMatch? Quins problemes de privacitat i discriminació pot generar?');
+}
+
+renderProfile(0);
+</script>
